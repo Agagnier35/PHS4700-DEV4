@@ -1,6 +1,6 @@
 function DessinerSurface(cube)
-for su=1:size(cube,2)
-    plan = cube(su);
+for su=1:size(cube.faces,2)
+    plan = cube.faces(su);
     surX=[];
     surY=[];
     surZ=[];

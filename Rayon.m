@@ -8,7 +8,7 @@ classdef Rayon < handle
         points
         couleur
         compteurReflexion
-        phi
+        theta
         
         estInterieur
         aToucheCylindre
@@ -24,10 +24,10 @@ classdef Rayon < handle
             end
         end
         
-        function obj = Rayon(pI, vI,p)
+        function obj = Rayon(pI, vI,t)
             obj.posInitiale = pI;
             obj.vecteurInitial = vI;
-            obj.phi = p;
+            obj.theta = t;
             obj.posVirtuelle = [0 0 0];
             
             obj.posActuelle = pI;

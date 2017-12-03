@@ -3,8 +3,8 @@ posFinale = [0 0 0];
 distancePlusPetitCounter = 0;
 distanceMin = 10000000000;
 idxMin=0;
-for sur=1:size(cube,2)
-    surface = cube(sur);
+for sur=1:size(cube.faces,2)
+    surface = cube.faces(sur);
     
     coin = surface.coins(1, :);
     distance = dot(surface.normale, rayon.posActuelle - coin);
@@ -16,8 +16,8 @@ for sur=1:size(cube,2)
         end
     end
 end
-if(distancePlusPetitCounter == size(cube,2))%collision -> dessiner image
-    rayon.couleur = cube(idxMin).couleur;
+if(distancePlusPetitCounter == size(cube.faces,2))%collision -> dessiner image
+    rayon.couleur = cube.faces(idxMin).couleur;
     u = (rayon.posActuelle - rayon.posInitiale)/norm(rayon.posActuelle - rayon.posInitiale);
     d = rayon.calculerDistanceParcourue;
     

@@ -11,5 +11,6 @@ surfaceJaune = Plan([1 1 0], [0 1 0] , [4 5 12;3 5 12;3 5 17;4 5 17]);
 surfaceBleu = Plan([0 0 1], [0 0 -1], [3 5 12;4 5 12;4 3 12;3 3 12]);
 surfaceMagenta = Plan([1 0 1], [0 0 1], [3 3 17; 4 3 17; 4 5 17; 3 5 17]);
 
-cube = [surfaceRouge surfaceCyan surfaceVert surfaceJaune surfaceBleu surfaceMagenta];
+rayonCube = norm([3.5 4 14.5] - [3 3 12]);
+cube = Cube([surfaceRouge surfaceCyan surfaceVert surfaceJaune surfaceBleu surfaceMagenta],rayonCube);
 

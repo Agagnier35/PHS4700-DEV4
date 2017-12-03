@@ -3,7 +3,7 @@ clf;
 axis ([-11 11 -11 11 -1 21])
 [cylindre, cube] = InitialisationScene(nin);
 hold on;
-%DessinerSurface(cube);
+DessinerSurface(cube);
 
 [x,y,z] = cylinder(cylindre.rayon);
 z(2,:)=cylindre.hauteur;
@@ -26,11 +26,10 @@ while i<=N
     while j<=M
         thetaN = thetaMin + (thetaMax -thetaMin)*(2*i-1)/(2*N);
         phiM = phiMin + (phiMax-phiMin)*(2*j-1)/(2*M);
-        %Inverser phiM et thetaN pour respecter référentiel prof...
-        vecUnit = transformerAnglesEnVecteur(phiM, thetaN);
+        vecUnit = transformerAnglesEnVecteur(thetaN, phiM);
         %plot3([poso(1) vecUnit(1)*10+poso(1)],[poso(2) vecUnit(2)*10+poso(2)],[poso(3) vecUnit(3)*10+poso(3)]);
         
-        nRayon = Rayon(poso, vecUnit, phiM);
+        nRayon = Rayon(poso, vecUnit, thetaN);
         rayons = [rayons; nRayon];
         j = j+1;
     end
@@ -38,7 +37,7 @@ while i<=N
     j=1;
 end
 
-s = 0.5;
+s = 0.005;
 for r=1:size(rayons,1)
     cas = -1;
     while (cas == -1)
@@ -90,8 +89,7 @@ for r=1:size(rayons,1)
             else
                 %tjrs a linterieur
                 distanceRayonCube = norm([3.5 4 14.5] - rayon.posActuelle);
-                rayonCube = norm([3.5 4 14.5] - [3 3 12]); % A SORTIR DE LA BOUCLE
-                if (distanceRayonCube < rayonCube)
+                if (distanceRayonCube < cube.rayon)
                   posFinale = verifierCollisonCube(rayon, cube);
                   if(posFinale ~= [0 0 0])%il y a eu collision
                       rayon.posVirtuelle = posFinale;
@@ -106,10 +104,16 @@ for r=1:size(rayons,1)
 end
 
 
+xi = [];
+yi = [];
+zi = [];
 face = [];
 con = ConteneurImageVirtuelle();
 for rA = 1:size(rayonsAcceptes,1)
     rayonAccepte = rayonsAcceptes(rA); 
+    xi = horzcat(xi, rayonAccepte.posActuelle(1));
+    yi = horzcat(yi, rayonAccepte.posActuelle(2));
+    zi = horzcat(zi, rayonAccepte.posActuelle(3));
     face = [face; transformColorToNumber(con, rayonAccepte)];
 end
 con.DrawAll;
