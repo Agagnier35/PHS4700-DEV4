@@ -1,6 +1,6 @@
 function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
 clf;
-axis ([-11 11 -11 11 0 22])
+axis ([-11 11 -11 11 -1 21])
 [cylindre, cube] = InitialisationScene(nin);
 hold on;
 %DessinerSurface(cube);
@@ -16,8 +16,8 @@ alpha(cylindreDessine, 0.05);
 
 [thetaMin, thetaMax,  phiMin, phiMax] = trouverAngles(poso, cylindre);
 
-N=10;
-M=10;
+N=100;
+M=100;
 rayons = [];
 rayonsAcceptes = [];
 i=1;
@@ -26,8 +26,9 @@ while i<=N
     while j<=M
         thetaN = thetaMin + (thetaMax -thetaMin)*(2*i-1)/(2*N);
         phiM = phiMin + (phiMax-phiMin)*(2*j-1)/(2*M);
-        vecUnit = transformerAnglesEnVecteur(thetaN, phiM);
-        plot3([vecUnit(1)+poso(1) vecUnit(1)*10+poso(1)],[vecUnit(2)+poso(2) vecUnit(2)*10+poso(2)],[vecUnit(3)+poso(3) vecUnit(3)*10+poso(3)]);
+        %Inverser phiM et thetaN pour respecter référentiel prof...
+        vecUnit = transformerAnglesEnVecteur(phiM, thetaN);
+        %plot3([poso(1) vecUnit(1)*10+poso(1)],[poso(2) vecUnit(2)*10+poso(2)],[poso(3) vecUnit(3)*10+poso(3)]);
         
         nRayon = Rayon(poso, vecUnit, phiM);
         rayons = [rayons; nRayon];
@@ -37,7 +38,7 @@ while i<=N
     j=1;
 end
 
-s = 0.005;
+s = 0.5;
 for r=1:size(rayons,1)
     cas = -1;
     while (cas == -1)
@@ -55,7 +56,7 @@ for r=1:size(rayons,1)
         rayon.posActuelle = nPos;
         rayon.points = [rayon.points; rayon.posActuelle];
 
-        if((rayon.posActuelle(1) > 7 || rayon.posActuelle(2) > 7 || rayon.posActuelle(3) > 22) && rayon.aToucheCylindre == false)
+        if((abs(rayon.posActuelle(1)) > 7 || abs(rayon.posActuelle(2)) > 7 || abs(rayon.posActuelle(3)) > 22) && rayon.aToucheCylindre == false)
             cas = 1;
             break;%out of bounds sans cylindre-> rejet
         end
@@ -88,30 +89,27 @@ for r=1:size(rayons,1)
                 end
             else
                 %tjrs a linterieur
-                posFinale = verifierCollisonCube(rayon, cube);
-                if(posFinale ~= [0 0 0])%il y a eu collision
-                    rayon.posVirtuelle = posFinale;
-                    rayonsAcceptes = [rayonsAcceptes; rayon];
-                    cas =4;
-                    break;
+                distanceRayonCube = norm([3.5 4 14.5] - rayon.posActuelle);
+                rayonCube = norm([3.5 4 14.5] - [3 3 12]); % A SORTIR DE LA BOUCLE
+                if (distanceRayonCube < rayonCube)
+                  posFinale = verifierCollisonCube(rayon, cube);
+                  if(posFinale ~= [0 0 0])%il y a eu collision
+                      rayon.posVirtuelle = posFinale;
+                      rayonsAcceptes = [rayonsAcceptes; rayon];
+                      cas =4;
+                      break;
+                   end
                 end 
             end
         end
     end
 end
 
-xi =[];
-yi=[];
-zi=[];
+
 face = [];
 con = ConteneurImageVirtuelle();
 for rA = 1:size(rayonsAcceptes,1)
-    rayonAccepte = rayonsAcceptes(rA);
-    xi = [xi; rayonAccepte.posActuelle(1)];
-    yi = [yi; rayonAccepte.posActuelle(2)];
-    zi = [zi; rayonAccepte.posActuelle(3)];
-    
-    
+    rayonAccepte = rayonsAcceptes(rA); 
     face = [face; transformColorToNumber(con, rayonAccepte)];
 end
 con.DrawAll;

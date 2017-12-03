@@ -11,7 +11,7 @@ for sur=1:size(cube,2)
     if(distance <= 0)
         distancePlusPetitCounter = distancePlusPetitCounter+1;
         if(abs(distance) < distanceMin)
-            distanceMin = distance;
+            distanceMin = abs(distance);
             idxMin = sur;
         end
     end

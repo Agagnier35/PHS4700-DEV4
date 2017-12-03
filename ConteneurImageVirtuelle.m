@@ -52,12 +52,12 @@ classdef ConteneurImageVirtuelle < handle
         end
         
         function DrawAll(con)
-            scatter3(con.redX, con.redY, con.redZ, 10, 'filled', 'MarkerEdgeColor', [1 0 0], 'MarkerFaceColor', [1 0 0]);
-            scatter3(con.cyanX, con.cyanY, con.cyanZ, 10, 'filled', 'MarkerEdgeColor', [0 1 1], 'MarkerFaceColor', [0 1 1]);
-            scatter3(con.vertX, con.vertY, con.vertZ, 10, 'filled', 'MarkerEdgeColor', [0 1 0], 'MarkerFaceColor', [0 1 0]);
-            scatter3(con.jauneX, con.jauneY, con.jauneZ, 10, 'filled', 'MarkerEdgeColor', [1 1 0], 'MarkerFaceColor', [1 1 0]);
-            scatter3(con.bleuX, con.bleuY, con.bleuZ, 10, 'filled', 'MarkerEdgeColor', [0 0 1], 'MarkerFaceColor', [0 0 1]);
-            scatter3(con.magentaX, con.magentaY, con.magentaZ, 10, 'filled', 'MarkerEdgeColor', [1 0 1], 'MarkerFaceColor', [1 0 1]);
+            scatter3(con.redX, con.redY, con.redZ, 10, 'filled', 'MarkerEdgeColor', [0 0 0], 'MarkerFaceColor', [1 0 0]);
+            scatter3(con.cyanX, con.cyanY, con.cyanZ, 10, 'filled', 'MarkerEdgeColor', [0 0 0], 'MarkerFaceColor', [0 1 1]);
+            scatter3(con.vertX, con.vertY, con.vertZ, 10, 'filled', 'MarkerEdgeColor', [0 0 0], 'MarkerFaceColor', [0 1 0]);
+            scatter3(con.jauneX, con.jauneY, con.jauneZ, 10, 'filled', 'MarkerEdgeColor', [0 0 0], 'MarkerFaceColor', [1 1 0]);
+            scatter3(con.bleuX, con.bleuY, con.bleuZ, 10, 'filled', 'MarkerEdgeColor', [0 0 0], 'MarkerFaceColor', [0 0 1]);
+            scatter3(con.magentaX, con.magentaY, con.magentaZ, 10, 'filled', 'MarkerEdgeColor', [0 0 0], 'MarkerFaceColor', [1 0 1]);
             
             %patch(con.redX, con.redY, con.redZ, 'FaceColor', [1 0 0] , 'EdgeColor', 'none');
             %patch(con.cyanX, con.cyanY, con.cyanZ, 'FaceColor', [1 0 0] , 'EdgeColor', 'none');
