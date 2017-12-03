@@ -3,7 +3,7 @@ clf;
 axis ([-11 11 -11 11 -1 21])
 [cylindre, cube] = InitialisationScene(nin);
 hold on;
-DessinerSurface(cube);
+%DessinerSurface(cube);
 
 [x,y,z] = cylinder(cylindre.rayon);
 z(2,:)=cylindre.hauteur;
@@ -16,8 +16,8 @@ alpha(cylindreDessine, 0.05);
 
 [thetaMin, thetaMax,  phiMin, phiMax] = trouverAngles(poso, cylindre);
 
-N=100;
-M=100;
+N=10;
+M=10;
 rayons = [];
 rayonsAcceptes = [];
 i=1;
@@ -108,15 +108,25 @@ xi = [];
 yi = [];
 zi = [];
 face = [];
+xiStr = "";
+yiStr = "";
+ziStr = "";
 con = ConteneurImageVirtuelle();
 for rA = 1:size(rayonsAcceptes,1)
     rayonAccepte = rayonsAcceptes(rA); 
     xi = horzcat(xi, rayonAccepte.posActuelle(1));
+    xiStr = xiStr + num2str(rayonAccepte.posActuelle(1)) + ", ";
     yi = horzcat(yi, rayonAccepte.posActuelle(2));
+    yiStr = yiStr + num2str(rayonAccepte.posActuelle(2)) + ", ";
     zi = horzcat(zi, rayonAccepte.posActuelle(3));
+    ziStr = ziStr + num2str(rayonAccepte.posActuelle(3)) + ", ";
     face = [face; transformColorToNumber(con, rayonAccepte)];
 end
 con.DrawAll;
 
+fprintf("Coordonnees des rayons acceptes: \n");
+fprintf("X : ");fprintf(xiStr);fprintf('\n');
+fprintf("Y : ");fprintf(yiStr);fprintf('\n');
+fprintf("Z : ");fprintf(ziStr);fprintf('\n');
 
 
