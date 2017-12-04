@@ -16,8 +16,8 @@ alpha(cylindreDessine, 0.05);
 
 [thetaMin, thetaMax,  phiMin, phiMax] = trouverAngles(poso, cylindre);
 
-N=10;
-M=10;
+N=100;
+M=100;
 rayons = [];
 rayonsAcceptes = [];
 i=1;
@@ -49,7 +49,7 @@ for r=1:size(rayons,1)
         else
             oldPos = rayon.points(size(rayon.points, 1),:);
         end
-        
+        %plot3([oldPos(1) nPos(1)], [oldPos(2) nPos(2)], [oldPos(3) nPos(3)]);
 
         
         rayon.posActuelle = nPos;
@@ -75,7 +75,7 @@ for r=1:size(rayons,1)
             end
         else
             if(sqrt((rayon.posActuelle(1) - cylindre.position(1))^2 + (rayon.posActuelle(2) - cylindre.position(2))^2) > cylindre.rayon || (rayon.posActuelle(3) < (cylindre.position(3)-cylindre.hauteur/2) && rayon.posActuelle(3) > (cylindre.position(3)+cylindre.hauteur/2)))
-                rti = CalculerRefraction(nout,nin, rayon,cylindre);
+                rti = CalculerRefraction(nin,nout, rayon,cylindre);
                 if(rti == false)
                     rayon.estInterieur = false;
                     cas = 3;
@@ -111,6 +111,7 @@ face = [];
 xiStr = "";
 yiStr = "";
 ziStr = "";
+faceStr = "";
 con = ConteneurImageVirtuelle();
 for rA = 1:size(rayonsAcceptes,1)
     rayonAccepte = rayonsAcceptes(rA); 
@@ -120,7 +121,9 @@ for rA = 1:size(rayonsAcceptes,1)
     yiStr = yiStr + num2str(rayonAccepte.posActuelle(2)) + ", ";
     zi = horzcat(zi, rayonAccepte.posActuelle(3));
     ziStr = ziStr + num2str(rayonAccepte.posActuelle(3)) + ", ";
-    face = [face; transformColorToNumber(con, rayonAccepte)];
+    faceRayon = transformColorToNumber(con, rayonAccepte);
+    face = [face; faceRayon];
+    faceStr = faceStr + num2str(faceRayon) + ", ";
 end
 con.DrawAll;
 
@@ -128,5 +131,6 @@ fprintf("Coordonnees des rayons acceptes: \n");
 fprintf("X : ");fprintf(xiStr);fprintf('\n');
 fprintf("Y : ");fprintf(yiStr);fprintf('\n');
 fprintf("Z : ");fprintf(ziStr);fprintf('\n');
+fprintf("face : ");fprintf(faceStr);fprintf('\n');
 
 
